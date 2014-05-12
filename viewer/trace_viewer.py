@@ -8,15 +8,15 @@ import os
 # Third-party
 import numpy as np
 from numpy.fft import fft, fftfreq, ifft
-from enthought.traits.api import Bool, Int, Str, Button, HasTraits, Instance, \
+from traits.api import Bool, Int, Str, Button, HasTraits, Instance, \
     Float, Enum
-from enthought.traits.ui.api import View, Item, VGroup, VGrid, HSplit
-from enthought.traits.ui.editors import TextEditor
-from enthought.enable.api import ComponentEditor
-from enthought.chaco.api import LinearMapper, BasePlotContainer, \
+from traits.ui.api import View, Item, VGroup, VGrid, HSplit
+from traits.ui.editors import TextEditor
+from enable.api import ComponentEditor
+from chaco.api import LinearMapper, BasePlotContainer, \
     OverlayPlotContainer, VPlotContainer, \
     create_line_plot, add_default_axes
-from enthought.chaco.tools.api import PanTool, SimpleZoom, RangeSelection, \
+from chaco.tools.api import PanTool, SimpleZoom, RangeSelection, \
     RangeSelectionOverlay
 # Local imports                                    
 from processgpr.viewer.gui_util import wxOpenFile
