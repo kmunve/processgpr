@@ -7,8 +7,10 @@ Created on 20.10.2010
 '''
 import numpy as np
 
-from pyproj import Proj
-
+try:
+    from pyproj import Proj
+except ImportError:
+    print "WARNING: No GPS support. Module pyproj not found."
 
 class GPS():
     def __init__(self, projection='PS71', **kwargs):

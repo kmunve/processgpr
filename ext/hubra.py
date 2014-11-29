@@ -1,4 +1,4 @@
-'''
+"""
 Specific methods for the I{HUBRA} radar.
 
 The Hubra FMCW radar was developed at the Norwegian Defence Research Establishment.
@@ -7,7 +7,7 @@ It was applied on the 2nd stage of the Norwegian-U.S. Scientific Traverse across
 Created on 20.10.2010
 
 @author: Karsten Mueller
-'''
+"""
 # Built-in modules
 import os
 import logging
@@ -349,3 +349,28 @@ class HUBRA(GPR):
                 os.remove(os.path.join(os.path.dirname(os.path.abspath(filein)),
                                        file))
           
+
+class cdHUBRA(HUBRA):
+    """
+    HUBRA class for Chris's radar
+    """
+    def parameters(self):
+        self.polarimetry = False  #: if True XX,XY,YX, and YY are loaded else only self.PP
+        self.numfreq = 4000  #: number of samples in frequency domain
+        self.gatefreq = 1e6  #: gating frequency
+        self.Nfft = 2 ** 15  #: number of samples for the FFT
+        self.samples = None  #: number of samples in time domain, assigned after conversion to time domain
+        self.traces = 0  #: number of traces in the profile
+        self.timens = 2000.0  #: time window in ns
+        self.lowF = 500000000  #: lowest system frequency
+        self.highF = 3000000000  #: highest system frequency
+        self.fc = (self.highF + self.lowF) / 2.0  #: center frequency
+        self.BW = self.highF - self.lowF  #: system bandwidth
+        self.deltaF = self.BW / (self.numfreq - 1)  #: sampling step in the freq. domain
+        self.nstart = int(self.lowF / self.deltaF)
+        self.deltaT = 1.0 / (self.deltaF * self.Nfft)  #: sampling in the time domain in [ns]
+        self.lam = self.cmed * 1.0e9 / self.fc  #: wave length in medium
+        if self.samples:
+            self.t = np.arange(0, self.deltaT * self.samples, self.deltaT) * 1e9  #: time axis in ns
+            self.r = self.t * self.cmed / 2.0  #: range axis in m
+
