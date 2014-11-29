@@ -374,3 +374,10 @@ class cdHUBRA(HUBRA):
             self.t = np.arange(0, self.deltaT * self.samples, self.deltaT) * 1e9  #: time axis in ns
             self.r = self.t * self.cmed / 2.0  #: range axis in m
 
+
+    def maxStack(self):
+        """
+        Stacks over the all traces.
+        Convenience function after conversion to TD.
+        """
+        self.stackTraces(self.traces)

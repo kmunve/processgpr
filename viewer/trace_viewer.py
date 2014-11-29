@@ -10,16 +10,18 @@ import numpy as np
 from numpy.fft import fft, fftfreq, ifft
 from traits.api import Bool, Int, Str, Button, HasTraits, Instance, \
     Float, Enum
-from traits.ui.api import View, Item, VGroup, VGrid, HSplit
-from traits.ui.editors import TextEditor
+from traitsui.api import View, Item, VGroup, VGrid, HSplit
+from traitsui.editors import TextEditor
 from enable.api import ComponentEditor
 from chaco.api import LinearMapper, BasePlotContainer, \
     OverlayPlotContainer, VPlotContainer, \
     create_line_plot, add_default_axes
-from chaco.tools.api import PanTool, SimpleZoom, RangeSelection, \
+from chaco.tools.api import PanTool, RangeSelection, \
     RangeSelectionOverlay
+import chaco.tools.zoom_tool as SimpleZoom
 # Local imports                                    
 from processgpr.viewer.gui_util import wxOpenFile
+from processgpr.ext.hubra import HUBRA, cdHUBRA
 
 
 class TraceViewer(HasTraits):
@@ -27,7 +29,7 @@ class TraceViewer(HasTraits):
     Allows visualization of a single trace and spectral analysis.
     """
     # Load Panel Items
-    gpr_type = Enum('HUBRA', 'CBAND', 'FIMBUL', label='GPR type')
+    gpr_type = Enum('cdHUBRA', 'HUBRA', 'CBAND', 'FIMBUL', label='GPR type')
     file = Str()
     dir = Str()
     browse = Button(label='...')
@@ -148,8 +150,8 @@ class TraceViewer(HasTraits):
         add_default_axes(traceplot, orientation='flipped', vtitle='Time [ns]', htitle='Signal')
         traceplot.origin = "top left"
         traceplot.tools.append(PanTool(traceplot, drag_button="right"))
-        zoom = SimpleZoom(component=traceplot, tool_mode="box", drag_button="left", always_on=True)
-        traceplot.overlays.append(zoom)
+        #zoom = SimpleZoom(component=traceplot, tool_mode="box", drag_button="left", always_on=True)
+        #traceplot.overlays.append(zoom)
 
         container = OverlayPlotContainer(padding=40, padding_left=60)
         container.add(traceplot)
